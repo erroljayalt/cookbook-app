@@ -19,7 +19,17 @@
       "imageUrl": "/uploads/1764861521872-BEEF AND BLACK BEAN CHILLI.webp",
       "id": 2,
       "createdAt": "2025-12-04T15:18:41.877Z"
+    },
+    {
+      "title": "TEST",
+      "author": "TEST",
+      "description": "TEST",
+      "ingredients": "[\"TEST\"]",
+      "instructions": "[\"TEST\"]",
+      "imageUrl": "/uploads/1764914701130-BEEF AND BLACK BEAN CHILLI.webp",
+      "id": 3,
+      "createdAt": "2025-12-05T06:05:01.135Z"
     }
   ],
-  "nextId": 3
+  "nextId": 4
 }

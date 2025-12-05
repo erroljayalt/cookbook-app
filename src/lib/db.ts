@@ -1,7 +1,7 @@
 import { promises as fs } from 'fs';
 import path from 'path';
 
-const dbPath = path.join(process.cwd(), 'recipes.json');
+const dbPath = path.join('/tmp', 'recipes.json');
 
 export interface Recipe {
   id: number;
@@ -24,10 +24,18 @@ async function readDatabase(): Promise<Database> {
     const data = await fs.readFile(dbPath, 'utf-8');
     return JSON.parse(data);
   } catch (error) {
-    // If file doesn't exist, create initial structure
-    const initialDb: Database = { recipes: [], nextId: 1 };
-    await writeDatabase(initialDb);
-    return initialDb;
+    // If file doesn't exist in /tmp, try to load initial data from project root or start empty
+    try {
+      const initialPath = path.join(process.cwd(), 'recipes.json');
+      const initialData = await fs.readFile(initialPath, 'utf-8');
+      // Write it to /tmp so we can modify it later
+      await fs.writeFile(dbPath, initialData, 'utf-8');
+      return JSON.parse(initialData);
+    } catch (e) {
+      const initialDb: Database = { recipes: [], nextId: 1 };
+      await writeDatabase(initialDb);
+      return initialDb;
+    }
   }
 }
 
