@@ -129,7 +129,7 @@
     counter-increment: step-counter;
     position: relative;
     padding: var(--spacing-md);
-    padding-left: var(--spacing-xl);
+    padding-left: 60px;
     margin-bottom: var(--spacing-md);
     background: var(--color-cream);
     border-radius: var(--radius-md);
