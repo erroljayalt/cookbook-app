@@ -1,28 +1,32 @@
 .backLink {
     display: inline-block;
-    margin-bottom: var(--spacing-lg);
-    color: var(--color-warm-brown);
-    font-weight: 600;
-    transition: transform var(--transition-fast);
+    margin: 2rem 0;
+    color: var(--color-green);
+    text-decoration: none;
+    font-weight: bold;
+    transition: transform 0.2s;
+    position: relative;
+    z-index: 20;
+    /* Ensure it's clickable */
 }
 
 .backLink:hover {
-    transform: translateX(-4px);
+    transform: translateX(-5px);
 }
 
 .recipeDetail {
     background: white;
-    border-radius: var(--radius-lg);
+    border-radius: 12px;
     overflow: hidden;
-    box-shadow: 0 4px 24px var(--color-shadow);
-    margin-bottom: var(--spacing-2xl);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    margin-bottom: 4rem;
 }
 
 .heroSection {
     position: relative;
-    width: 100%;
-    height: 500px;
-    background: linear-gradient(135deg, var(--color-parchment), var(--color-cream));
+    height: 400px;
+    background: #333;
+    overflow: hidden;
 }
 
 .heroImageWrapper {
@@ -31,17 +35,30 @@
     height: 100%;
 }
 
+@keyframes panImage {
+    0% {
+        background-position: 50% 50%;
+        transform: scale(1);
+    }
+
+    100% {
+        background-position: 50% 60%;
+        transform: scale(1.1);
+    }
+}
+
 .heroImage {
     object-fit: cover;
+    animation: panImage 10s ease-in-out infinite alternate;
 }
 
 .heroPlaceholder {
-    width: 100%;
     height: 100%;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 8rem;
+    font-size: 5rem;
+    background: var(--color-cream);
 }
 
 .heroOverlay {
@@ -49,55 +66,52 @@
     bottom: 0;
     left: 0;
     right: 0;
-    background: linear-gradient(to top, rgba(42, 36, 22, 0.95), transparent);
-    padding: var(--spacing-xl) var(--spacing-lg);
+    padding: 3rem 2rem;
+    background: linear-gradient(transparent, rgba(0, 0, 0, 0.8));
     color: white;
+    pointer-events: none;
 }
 
 .recipeTitle {
-    font-size: 3.5rem;
-    color: white;
-    margin-bottom: var(--spacing-sm);
-    text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.5);
+    font-family: var(--font-serif);
+    font-size: 3rem;
+    margin-bottom: 0.5rem;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    color: var(--color-white);
 }
 
 .recipeAuthor {
-    font-family: var(--font-serif);
-    font-size: 1.25rem;
-    font-style: italic;
-    color: var(--color-parchment);
-    margin: 0;
+    font-family: var(--font-sans);
+    font-size: 1.1rem;
+    opacity: 0.9;
 }
 
 .description {
-    padding: var(--spacing-lg);
+    padding: 2rem;
     background: var(--color-cream);
-    border-bottom: 2px solid var(--color-parchment);
-}
-
-.description p {
-    font-size: 1.125rem;
-    line-height: 1.8;
-    color: var(--color-text-secondary);
-    text-align: center;
+    font-size: 1.1rem;
+    line-height: 1.6;
+    color: #555;
     font-style: italic;
-    margin: 0;
+    text-align: center;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
 }
 
 .contentGrid {
     display: grid;
-    grid-template-columns: 1fr 2fr;
-    gap: var(--spacing-xl);
-    padding: var(--spacing-xl);
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    padding: 3rem;
 }
 
 .ingredientsSection h2,
 .instructionsSection h2 {
-    font-size: 1.75rem;
-    margin-bottom: var(--spacing-md);
-    color: var(--color-dark-brown);
-    border-bottom: 3px solid var(--color-accent-gold);
-    padding-bottom: var(--spacing-sm);
+    font-family: var(--font-serif);
+    color: var(--color-green);
+    margin-bottom: 1.5rem;
+    font-size: 1.8rem;
+    border-bottom: 2px solid var(--color-cream);
+    padding-bottom: 0.5rem;
 }
 
 .ingredientsList {
@@ -106,77 +120,100 @@
 }
 
 .ingredientsList li {
-    padding: var(--spacing-sm);
-    margin-bottom: var(--spacing-xs);
-    background: var(--color-cream);
-    border-left: 4px solid var(--color-warm-brown);
-    border-radius: var(--radius-sm);
-    transition: all var(--transition-fast);
-}
-
-.ingredientsList li:hover {
-    background: var(--color-parchment);
-    transform: translateX(4px);
+    padding: 0.8rem 0;
+    border-bottom: 1px dashed #eee;
+    color: #444;
 }
 
 .instructionsList {
-    list-style: none;
-    counter-reset: step-counter;
-    padding: 0;
+    padding-left: 1.5rem;
 }
 
 .instructionsList li {
-    counter-increment: step-counter;
-    position: relative;
-    padding: var(--spacing-md);
-    padding-left: 60px;
-    margin-bottom: var(--spacing-md);
-    background: var(--color-cream);
-    border-radius: var(--radius-md);
-    line-height: 1.8;
+    margin-bottom: 1.5rem;
+    line-height: 1.6;
+    color: #444;
+    padding-left: 0.5rem;
 }
 
-.instructionsList li::before {
-    content: counter(step-counter);
-    position: absolute;
-    left: var(--spacing-sm);
-    top: var(--spacing-sm);
-    background: var(--color-warm-brown);
-    color: white;
-    width: 32px;
-    height: 32px;
+/* Navigation Overlay */
+.navigationOverlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 100;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 2rem;
+    pointer-events: none;
+    /* Allow clicks to pass through */
+}
+
+.navButton {
+    pointer-events: auto;
+    /* Re-enable clicks for buttons */
+    background: transparent;
+    border: none;
+    color: #000000;
+    /* Black color */
+    width: 60px;
+    height: 60px;
     border-radius: 50%;
+    font-size: 3rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-weight: 700;
-    font-family: var(--font-serif);
+    opacity: 0.3;
 }
 
-@media (max-width: 968px) {
-    .contentGrid {
-        grid-template-columns: 1fr;
+.navButton:hover {
+    opacity: 1;
+    transform: scale(1.2);
+    color: var(--color-orange);
+}
+
+/* Flipbook Page Transition */
+@keyframes flipIn {
+    from {
+        opacity: 0;
+        transform: perspective(1000px) rotateY(90deg);
+        transform-origin: left center;
     }
 
-    .heroSection {
-        height: 350px;
+    to {
+        opacity: 1;
+        transform: perspective(1000px) rotateY(0);
+        transform-origin: left center;
     }
+}
 
-    .recipeTitle {
-        font-size: 2.5rem;
-    }
+.pageTransition {
+    animation: flipIn 0.8s ease-out;
+    transform-style: preserve-3d;
 }
 
 @media (max-width: 768px) {
-    .heroSection {
-        height: 300px;
+    .contentGrid {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+        padding: 2rem;
     }
 
     .recipeTitle {
         font-size: 2rem;
     }
 
-    .recipeAuthor {
-        font-size: 1rem;
+    .heroSection {
+        height: 300px;
+    }
+
+    /* Hide buttons on mobile since we have swipe */
+    .navButton {
+        display: none;
     }
 }

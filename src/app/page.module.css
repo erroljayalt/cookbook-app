@@ -1,134 +1,317 @@
+/* Variables */
+.container {
+    --color-green: #5C8037;
+    --color-orange: #F0A500;
+    --color-cream: #F9F7F2;
+    --color-text: #333333;
+    --color-white: #ffffff;
+    --font-serif: "Georgia", "Times New Roman", serif;
+    --font-sans: "Arial", "Helvetica", sans-serif;
+}
+
+/* Hero Section */
+@keyframes panImage {
+    0% {
+        background-position: 50% 50%;
+        background-size: 100%;
+    }
+
+    100% {
+        background-position: 50% 60%;
+        background-size: 110%;
+    }
+}
+
 .hero {
+    position: relative;
+    height: 80vh;
+    min-height: 600px;
+    background: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), url('https://images.unsplash.com/photo-1490645935967-10de6ba17061?q=80&w=2053&auto=format&fit=crop') center/cover no-repeat;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
     text-align: center;
-    padding: var(--spacing-2xl) 0;
-    background: linear-gradient(135deg, var(--color-parchment), var(--color-cream));
-    border-radius: var(--radius-lg);
-    margin-bottom: var(--spacing-2xl);
-    box-shadow: 0 4px 16px var(--color-shadow);
+    color: var(--color-white);
+    margin-bottom: 4rem;
+    animation: panImage 10s ease-in-out infinite alternate;
+}
+
+.heroPretitle {
+    font-family: var(--font-sans);
+    margin-bottom: 2rem;
+    font-style: italic;
+    font-size: 2rem;
+    color: var(--color-white);
 }
 
 .heroTitle {
-    font-size: 4rem;
-    color: var(--color-dark-brown);
-    margin-bottom: var(--spacing-sm);
-    letter-spacing: 2px;
+    font-family: var(--font-serif);
+    font-size: 5rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    line-height: 1;
+    margin-bottom: 1rem;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+    color: var(--color-white);
 }
 
 .heroSubtitle {
-    font-family: var(--font-serif);
-    font-size: 1.5rem;
-    color: var(--color-warm-brown);
+    font-family: var(--font-sans);
+    font-size: 1.2rem;
+    margin-bottom: 1rem;
     font-style: italic;
-    margin-bottom: var(--spacing-md);
-    letter-spacing: 3px;
 }
 
 .heroDescription {
-    font-size: 1.125rem;
-    color: var(--color-text-secondary);
+    font-family: var(--font-sans);
+    font-size: 1.1rem;
+    margin-bottom: 2rem;
     max-width: 600px;
+    line-height: 1.5;
+}
+
+.heroButton {
+    padding: 1rem 2rem;
+    border: 2px solid var(--color-white);
+    color: var(--color-white);
+    text-transform: uppercase;
+    font-weight: bold;
+    letter-spacing: 1px;
+    background: transparent;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.heroButton:hover {
+    background: var(--color-white);
+    color: var(--color-green);
+}
+
+/* Intro Section */
+.introSection {
+    text-align: center;
+    padding: 4rem 2rem;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.introIcon {
+    font-size: 2rem;
+    color: var(--color-orange);
+    margin-bottom: 1rem;
+}
+
+.introTitle {
+    font-family: var(--font-serif);
+    font-size: 2.5rem;
+    color: #333;
+    margin-bottom: 1.5rem;
+    text-transform: uppercase;
+}
+
+.introText {
+    font-family: var(--font-sans);
+    color: #666;
+    line-height: 1.8;
+    margin-bottom: 2rem;
+}
+
+/* Feature Section (Split) */
+.featureSection {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    margin-bottom: 4rem;
+}
+
+.featureImageWrapper {
+    position: relative;
+    height: 500px;
+    background: var(--color-cream);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+.featureImage {
+    object-fit: cover;
+}
+
+.featureContent {
+    background: var(--color-orange);
+    padding: 4rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    color: var(--color-white);
+}
+
+.featureTitle {
+    font-family: var(--font-sans);
+    font-size: 1.5rem;
+    text-transform: uppercase;
+    margin-bottom: 1.5rem;
+    letter-spacing: 1px;
+}
+
+.featureText {
+    font-family: var(--font-serif);
+    font-size: 1.1rem;
+    line-height: 1.6;
+    margin-bottom: 2rem;
+}
+
+.featureButton {
+    align-self: flex-start;
+    padding: 1rem 2rem;
+    background: var(--color-white);
+    color: var(--color-orange);
+    border: none;
+    text-transform: uppercase;
+    font-weight: bold;
+    cursor: pointer;
+    transition: transform 0.2s;
+}
+
+.featureButton:hover {
+    transform: translateY(-2px);
+}
+
+/* Info Grid */
+.infoGrid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+    padding: 4rem 2rem;
+    background: var(--color-cream);
+    margin-bottom: 4rem;
+}
+
+.infoCard {
+    text-align: center;
+    padding: 2rem;
+}
+
+.infoIcon {
+    font-size: 2rem;
+    color: var(--color-green);
+    margin-bottom: 1rem;
+}
+
+.infoTitle {
+    font-family: var(--font-serif);
+    font-size: 1.8rem;
+    color: #333;
+    margin-bottom: 1rem;
+}
+
+.infoText {
+    color: #666;
+    margin-bottom: 2rem;
+    line-height: 1.6;
+}
+
+.infoButton {
+    padding: 0.8rem 2rem;
+    background: var(--color-green);
+    color: var(--color-white);
+    border: none;
+    text-transform: uppercase;
+    font-weight: bold;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.infoButton:hover {
+    background: #4a662c;
+}
+
+/* Recipe Grid (Existing adapted) */
+.recipeSection {
+    padding: 4rem 2rem;
+    max-width: 1200px;
     margin: 0 auto;
 }
 
 .sectionHeader {
-    margin-bottom: var(--spacing-lg);
+    text-align: center;
+    margin-bottom: 3rem;
 }
 
 .sectionHeader h2 {
+    font-family: var(--font-serif);
     font-size: 2.5rem;
-    text-align: center;
-    color: var(--color-dark-brown);
+    color: #333;
+    text-transform: uppercase;
 }
 
 .recipeGrid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-    gap: var(--spacing-lg);
-    margin-bottom: var(--spacing-2xl);
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 2rem;
 }
 
 .recipeCard {
+    background: white;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s;
+    text-decoration: none;
+    color: inherit;
     display: block;
-    cursor: pointer;
+}
+
+.recipeCard:hover {
+    transform: translateY(-5px);
 }
 
 .recipeImageWrapper {
     position: relative;
-    width: 100%;
-    height: 250px;
-    overflow: hidden;
-    background: var(--color-parchment);
+    height: 200px;
+    background: #eee;
 }
 
 .recipeImage {
     object-fit: cover;
-    transition: transform var(--transition-normal);
-}
-
-.recipeCard:hover .recipeImage {
-    transform: scale(1.05);
-}
-
-.placeholderImage {
-    width: 100%;
-    height: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 4rem;
-    background: linear-gradient(135deg, var(--color-parchment), var(--color-cream));
 }
 
 .recipeContent {
-    padding: var(--spacing-md);
+    padding: 1.5rem;
 }
 
 .recipeTitle {
-    font-size: 1.5rem;
-    margin-bottom: var(--spacing-xs);
-    color: var(--color-dark-brown);
+    font-family: var(--font-serif);
+    font-size: 1.4rem;
+    margin-bottom: 0.5rem;
+    color: #333;
 }
 
 .recipeAuthor {
-    font-size: 0.875rem;
-    color: var(--color-warm-brown);
+    color: var(--color-orange);
     font-style: italic;
-    margin-bottom: var(--spacing-sm);
+    font-size: 0.9rem;
+    margin-bottom: 1rem;
 }
 
 .recipeDescription {
-    font-size: 0.9375rem;
-    color: var(--color-text-secondary);
-    line-height: 1.6;
+    color: #666;
+    font-size: 0.95rem;
+    line-height: 1.5;
 }
 
-.emptyState {
-    text-align: center;
-    padding: var(--spacing-2xl);
-    background: white;
-    border-radius: var(--radius-lg);
-    box-shadow: 0 4px 16px var(--color-shadow);
-}
-
-.emptyState h2 {
-    margin-bottom: var(--spacing-md);
-}
-
-.emptyState p {
-    color: var(--color-text-secondary);
-    margin-bottom: var(--spacing-lg);
-}
-
-@media (max-width: 768px) {
-    .heroTitle {
-        font-size: 2.5rem;
-    }
-
-    .heroSubtitle {
-        font-size: 1.125rem;
-    }
-
-    .recipeGrid {
+@media (max-width: 968px) {
+    .featureSection {
         grid-template-columns: 1fr;
+    }
+
+    .infoGrid {
+        grid-template-columns: 1fr;
+    }
+
+    .heroTitle {
+        font-size: 3rem;
     }
 }

@@ -16,19 +16,6 @@ export default function RootLayout({
     return (
         <html lang="en">
             <body>
-                <nav className={styles.navbar}>
-                    <div className="container">
-                        <div className={styles.navContent}>
-                            <Link href="/" className={styles.logo}>
-                                <h1 className={styles.logoText}>Flavorful Forums</h1>
-                                <p className={styles.logoSubtext}>A Digital Cookbook</p>
-                            </Link>
-                            <div className={styles.navLinks}>
-                                <Link href="/" className={styles.navLink}>Home</Link>
-                            </div>
-                        </div>
-                    </div>
-                </nav>
                 <main className={styles.main}>
                     {children}
                 </main>

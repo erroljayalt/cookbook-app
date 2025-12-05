@@ -15,7 +15,8 @@ interface Recipe {
     imageUrl: string;
 }
 
-import { getRecipeById } from '@/lib/db';
+import { getRecipeById, getAllRecipes } from '@/lib/db';
+import RecipeNavigation from './RecipeNavigation';
 
 async function getRecipe(id: string): Promise<Recipe | null> {
     try {
@@ -31,16 +32,25 @@ async function getRecipe(id: string): Promise<Recipe | null> {
 export default async function RecipePage({ params }: { params: Promise<{ id: string }> }) {
     const { id } = await params;
     const recipe = await getRecipe(id);
+    const allRecipes = await getAllRecipes();
 
     if (!recipe) {
         notFound();
     }
+
+    const currentIndex = allRecipes.findIndex(r => r.id === recipe.id);
+    const prevIndex = (currentIndex - 1 + allRecipes.length) % allRecipes.length;
+    const nextIndex = (currentIndex + 1) % allRecipes.length;
+
+    const prevId = allRecipes[prevIndex].id;
+    const nextId = allRecipes[nextIndex].id;
 
     const ingredients = JSON.parse(recipe.ingredients);
     const instructions = JSON.parse(recipe.instructions);
 
     return (
         <div className="container">
+            <RecipeNavigation prevId={prevId} nextId={nextId} />
             <Link href="/" className={styles.backLink}>
                 ← Back to Recipes
             </Link>
