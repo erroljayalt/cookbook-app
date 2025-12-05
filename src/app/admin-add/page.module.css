@@ -1,0 +1,181 @@
+.uploadHeader {
+    text-align: center;
+    margin-bottom: var(--spacing-2xl);
+}
+
+.uploadHeader h1 {
+    font-size: 2.5rem;
+    color: var(--color-dark-brown);
+    margin-bottom: var(--spacing-xs);
+}
+
+.uploadHeader p {
+    color: var(--color-warm-brown);
+    font-family: var(--font-serif);
+    font-style: italic;
+}
+
+.adminLayout {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--spacing-2xl);
+}
+
+@media (min-width: 1024px) {
+    .adminLayout {
+        grid-template-columns: 3fr 2fr;
+    }
+}
+
+.formContainer, .listContainer {
+    background: white;
+    padding: var(--spacing-xl);
+    border-radius: var(--radius-lg);
+    box-shadow: 0 4px 6px var(--color-shadow);
+}
+
+.uploadForm {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-xl);
+}
+
+.formSection {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-md);
+    padding-bottom: var(--spacing-lg);
+    border-bottom: 1px solid var(--color-shadow);
+}
+
+.formSection:last-child {
+    border-bottom: none;
+}
+
+.formSection h2, .formSection h3 {
+    color: var(--color-dark-brown);
+    margin-bottom: var(--spacing-sm);
+}
+
+.formGroup {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-xs);
+}
+
+.formGroup label {
+    font-weight: 500;
+    color: var(--color-dark-brown);
+}
+
+.formGroup input,
+.formGroup textarea {
+    padding: var(--spacing-sm);
+    border: 1px solid #ddd;
+    border-radius: var(--radius-md);
+    font-family: inherit;
+    transition: border-color var(--transition-fast);
+}
+
+.formGroup input:focus,
+.formGroup textarea:focus {
+    outline: none;
+    border-color: var(--color-warm-brown);
+}
+
+.dynamicField {
+    display: flex;
+    gap: var(--spacing-sm);
+    align-items: flex-start;
+}
+
+.dynamicField input,
+.dynamicField textarea {
+    flex: 1;
+    padding: var(--spacing-sm);
+    border: 1px solid #ddd;
+    border-radius: var(--radius-md);
+}
+
+.removeBtn {
+    background: #fee2e2;
+    color: #ef4444;
+    border: none;
+    width: 32px;
+    height: 32px;
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.25rem;
+    transition: background var(--transition-fast);
+}
+
+.removeBtn:hover {
+    background: #fecaca;
+}
+
+.formActions {
+    display: flex;
+    gap: var(--spacing-md);
+    justify-content: flex-end;
+    margin-top: var(--spacing-lg);
+}
+
+/* Recipe List Styles */
+.recipeList {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-md);
+}
+
+.recipeItem {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: var(--spacing-md);
+    border: 1px solid #eee;
+    border-radius: var(--radius-md);
+    background: var(--color-cream);
+}
+
+.recipeInfo h3 {
+    margin: 0;
+    font-size: 1.1rem;
+    color: var(--color-dark-brown);
+}
+
+.recipeInfo p {
+    margin: 0;
+    font-size: 0.9rem;
+    color: var(--color-warm-brown);
+}
+
+.recipeActions {
+    display: flex;
+    gap: var(--spacing-sm);
+}
+
+.editBtn, .deleteBtn {
+    padding: var(--spacing-xs) var(--spacing-sm);
+    border: none;
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    font-size: 0.875rem;
+    transition: opacity var(--transition-fast);
+}
+
+.editBtn {
+    background: var(--color-warm-brown);
+    color: white;
+}
+
+.deleteBtn {
+    background: #ef4444;
+    color: white;
+}
+
+.editBtn:hover, .deleteBtn:hover {
+    opacity: 0.9;
+}

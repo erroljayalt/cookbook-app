@@ -1,0 +1,25 @@
+{
+  "recipes": [
+    {
+      "title": "BEEF ORZO BOWLS",
+      "author": "Samantha Kinsella",
+      "description": "A Beef Orzo Bowl is a hearty and flavorful dish that combines tender beef with\r\norzo pasta (a rice-shaped pasta), usually served with vegetables and seasonings in\r\na single bowl.\r\n",
+      "ingredients": "[\"1 lb of Beef\",\"2 Cups of Orzo\"]",
+      "instructions": "[\"Orzo:\\nIn a large pot of boiling water add orzo. Cook for 9 minutes so tender but firm.\\nStrain orzo and add 2 tablespoons of salted butter.\\nCover!\",\"Veggies:\\nPut 1 tablespoon of oil into a large pot headed over medium/high.\\nAdd garlic and cook for 30 seconds, until you can smell it.\\nAdd your peppers and tomatoes with pepper to taste.\\nCook for 5-6 minutes then remove from pan.\"]",
+      "imageUrl": "/uploads/1764861295055-BEEF ORZO BOWLS.webp",
+      "id": 1,
+      "createdAt": "2025-12-04T15:14:55.060Z"
+    },
+    {
+      "title": "BEEF AND BLACK BEAN CHILLI",
+      "author": "Samantha Kinsella",
+      "description": "You'll be surprised at how conveniently you can make\r\nbaked cheese bread at home.",
+      "ingredients": "[\"1lb of Beef\",\"4 Sweet Potatoes\",\"Beef Broth Concentrate 4 tablespoons\"]",
+      "instructions": "[\"TACO SEASONING:\\n1 teaspoon chili powder (add more if you like)\\n1teaspoon garlic powder\\n1 teaspoon onion powder (or 2 teaspoons\\ncrushed dried fried onions)\\n1⁄2 teaspoon crushed red pepper flakes\\n1⁄2 teaspoon dried oregano\\n2 teaspoons paprika\\n1 1⁄2 teaspoons ground cumin\\n1⁄2 teaspoon sea salt\\n1⁄2 teaspoon black pepper\\n1pinch ground cinnamon\\n1pinch ground cloves\\n\",\"Veggies:\\nCut sweet potatoes into small 1/2 inch chunks\\nToss potatoes in 1 tablespoon of oil and 1 tablespoon of Taco seasoning\\nRoast in oven at 425 for 20 minutes, flipping halfway through\\n\",\"Beef:\\nHeat a large pot over medium-high and add 1 tbsp of oil then beef, cooking until\\nbrown.\\nAdd tomato paste and 2 more tablespoons of taco seasoning, cooking for 2\\nminutes until well combined\\nAdd broth concentrate, beans and liquid, crushed tomatoes and 1/2 teaspoon of\\nsugar.\\nReduce chili to low and simmer for 10 minutes stirring occasionally\",\"Finale:\\nStir sweet potatoes into the chili, divide into bowls and top with cheese and sour\\ncream!\"]",
+      "imageUrl": "/uploads/1764861521872-BEEF AND BLACK BEAN CHILLI.webp",
+      "id": 2,
+      "createdAt": "2025-12-04T15:18:41.877Z"
+    }
+  ],
+  "nextId": 3
+}

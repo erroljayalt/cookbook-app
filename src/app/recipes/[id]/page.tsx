@@ -1,0 +1,98 @@
+import Image from 'next/image';
+import Link from 'next/link';
+import { notFound } from 'next/navigation';
+import styles from './page.module.css';
+
+interface Recipe {
+    id: number;
+    title: string;
+    author: string;
+    description: string;
+    ingredients: string;
+    instructions: string;
+    imageUrl: string;
+}
+
+import { getRecipeById } from '@/lib/db';
+
+async function getRecipe(id: string): Promise<Recipe | null> {
+    try {
+        const recipeId = parseInt(id);
+        const recipe = await getRecipeById(recipeId);
+        return recipe || null;
+    } catch (error) {
+        console.error('Error fetching recipe:', error);
+        return null;
+    }
+}
+
+export default async function RecipePage({ params }: { params: Promise<{ id: string }> }) {
+    const { id } = await params;
+    const recipe = await getRecipe(id);
+
+    if (!recipe) {
+        notFound();
+    }
+
+    const ingredients = JSON.parse(recipe.ingredients);
+    const instructions = JSON.parse(recipe.instructions);
+
+    return (
+        <div className="container">
+            <Link href="/" className={styles.backLink}>
+                ← Back to Recipes
+            </Link>
+
+            <article className={styles.recipeDetail}>
+                <div className={styles.heroSection}>
+                    {recipe.imageUrl ? (
+                        <div className={styles.heroImageWrapper}>
+                            <Image
+                                src={recipe.imageUrl}
+                                alt={recipe.title}
+                                fill
+                                className={styles.heroImage}
+                                priority
+                                sizes="100vw"
+                            />
+                        </div>
+                    ) : (
+                        <div className={styles.heroPlaceholder}>
+                            <span>🍽️</span>
+                        </div>
+                    )}
+                    <div className={styles.heroOverlay}>
+                        <h1 className={styles.recipeTitle}>{recipe.title}</h1>
+                        <p className={styles.recipeAuthor}>{recipe.author}</p>
+                    </div>
+                </div>
+
+                {recipe.description && (
+                    <div className={styles.description}>
+                        <p>{recipe.description}</p>
+                    </div>
+                )}
+
+                <div className={styles.contentGrid}>
+                    <div className={styles.ingredientsSection}>
+                        <h2>Ingredients:</h2>
+                        <ul className={styles.ingredientsList}>
+                            {ingredients.map((ingredient: string, index: number) => (
+                                <li key={index}>{ingredient}</li>
+                            ))}
+                        </ul>
+                    </div>
+
+                    <div className={styles.instructionsSection}>
+                        <h2>Cooking Instructions:</h2>
+                        <ol className={styles.instructionsList}>
+                            {instructions.map((instruction: string, index: number) => (
+                                <li key={index}>{instruction}</li>
+                            ))}
+                        </ol>
+                    </div>
+                </div>
+            </article>
+        </div>
+    );
+}
