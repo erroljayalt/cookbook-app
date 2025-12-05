@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { revalidatePath } from 'next/cache';
 import { getAllRecipes, createRecipe } from '@/lib/db';
 import { writeFile, mkdir } from 'fs/promises';
 import { promises as fs } from 'fs';
@@ -56,6 +57,7 @@ export async function POST(request: NextRequest) {
             imageUrl
         });
 
+        revalidatePath('/');
         return NextResponse.json(recipe, { status: 201 });
     } catch (error) {
         console.error('Error creating recipe:', error);

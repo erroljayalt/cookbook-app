@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { revalidatePath } from 'next/cache';
 import { getRecipeById, updateRecipe, deleteRecipe } from '@/lib/db';
 
 export async function GET(
@@ -36,6 +37,7 @@ export async function PUT(
             return NextResponse.json({ error: 'Recipe not found' }, { status: 404 });
         }
 
+        revalidatePath('/');
         return NextResponse.json(updatedRecipe);
     } catch (error) {
         console.error('Error updating recipe:', error);
@@ -57,6 +59,7 @@ export async function DELETE(
             return NextResponse.json({ error: 'Recipe not found' }, { status: 404 });
         }
 
+        revalidatePath('/');
         return NextResponse.json({ success: true });
     } catch (error) {
         console.error('Error deleting recipe:', error);
