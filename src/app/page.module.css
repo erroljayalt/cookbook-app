@@ -315,3 +315,19 @@
         font-size: 3rem;
     }
 }
+
+.footerBanner {
+    width: 100%;
+    margin-top: 2rem;
+    padding-bottom: 2rem;
+    display: flex;
+    justify-content: center;
+    background: var(--color-cream);
+}
+
+.bannerImage {
+    max-width: 100%;
+    height: auto;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}

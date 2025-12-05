@@ -12,6 +12,8 @@ interface Recipe {
     ingredients: string;
     instructions: string;
     imageUrl: string;
+    chibiUrl?: string;
+    servingSuggestions?: string;
 }
 
 export default function AdminPage() {
@@ -24,10 +26,13 @@ export default function AdminPage() {
     const [title, setTitle] = useState('');
     const [author, setAuthor] = useState('');
     const [description, setDescription] = useState('');
+    const [servingSuggestions, setServingSuggestions] = useState('');
     const [ingredients, setIngredients] = useState(['']);
     const [instructions, setInstructions] = useState(['']);
     const [imagePreview, setImagePreview] = useState<string>('');
     const [imageUrl, setImageUrl] = useState<string>('');
+    const [chibiPreview, setChibiPreview] = useState<string>('');
+    const [chibiUrl, setChibiUrl] = useState<string>('');
 
     useEffect(() => {
         fetchRecipes();
@@ -50,10 +55,13 @@ export default function AdminPage() {
         setTitle('');
         setAuthor('');
         setDescription('');
+        setServingSuggestions('');
         setIngredients(['']);
         setInstructions(['']);
         setImagePreview('');
         setImageUrl('');
+        setChibiPreview('');
+        setChibiUrl('');
     };
 
     const handleEdit = (recipe: Recipe) => {
@@ -61,10 +69,13 @@ export default function AdminPage() {
         setTitle(recipe.title);
         setAuthor(recipe.author);
         setDescription(recipe.description);
+        setServingSuggestions(recipe.servingSuggestions || '');
         setIngredients(JSON.parse(recipe.ingredients));
         setInstructions(JSON.parse(recipe.instructions));
         setImageUrl(recipe.imageUrl || '');
         setImagePreview(recipe.imageUrl || '');
+        setChibiUrl(recipe.chibiUrl || '');
+        setChibiPreview(recipe.chibiUrl || '');
         window.scrollTo({ top: 0, behavior: 'smooth' });
     };
 
@@ -155,6 +166,20 @@ export default function AdminPage() {
         }
     };
 
+    const handleChibiChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+        const file = e.target.files?.[0];
+        if (file) {
+            try {
+                const base64 = await convertToBase64(file);
+                setChibiPreview(base64);
+                setChibiUrl(base64);
+            } catch (error) {
+                console.error('Error processing chibi image:', error);
+                alert('Failed to process chibi image');
+            }
+        }
+    };
+
     const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         setIsSubmitting(true);
@@ -166,9 +191,11 @@ export default function AdminPage() {
             title,
             author,
             description,
+            servingSuggestions,
             ingredients: JSON.stringify(filteredIngredients),
             instructions: JSON.stringify(filteredInstructions),
             imageUrl,
+            chibiUrl,
         };
 
         try {
@@ -250,6 +277,18 @@ export default function AdminPage() {
                             </div>
 
                             <div className={styles.formGroup}>
+                                <label htmlFor="servingSuggestions">Serving Suggestions</label>
+                                <textarea
+                                    id="servingSuggestions"
+                                    name="servingSuggestions"
+                                    value={servingSuggestions}
+                                    onChange={e => setServingSuggestions(e.target.value)}
+                                    rows={3}
+                                    placeholder="e.g. Best served warm with a side of steamed rice..."
+                                />
+                            </div>
+
+                            <div className={styles.formGroup}>
                                 <label htmlFor="image">Recipe Image</label>
                                 {imagePreview && (
                                     <div className={styles.imagePreview}>
@@ -262,6 +301,23 @@ export default function AdminPage() {
                                     name="image"
                                     accept="image/*"
                                     onChange={handleImageChange}
+                                    className={styles.fileInput}
+                                />
+                            </div>
+
+                            <div className={styles.formGroup}>
+                                <label htmlFor="chibi">Chibi Decoration Image (Optional)</label>
+                                {chibiPreview && (
+                                    <div className={styles.imagePreview}>
+                                        <img src={chibiPreview} alt="Preview" style={{ maxWidth: '100px', maxHeight: '100px', borderRadius: '8px', marginBottom: '10px' }} />
+                                    </div>
+                                )}
+                                <input
+                                    type="file"
+                                    id="chibi"
+                                    name="chibi"
+                                    accept="image/*"
+                                    onChange={handleChibiChange}
                                     className={styles.fileInput}
                                 />
                             </div>

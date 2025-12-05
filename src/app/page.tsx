@@ -81,6 +81,10 @@ export default async function Home() {
                     </div>
                 )}
             </section>
+
+            <div className={styles.footerBanner}>
+                <img src="/footer-banner.png" alt="Team Banner" className={styles.bannerImage} />
+            </div>
         </div>
     );
 }

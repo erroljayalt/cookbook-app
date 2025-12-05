@@ -13,6 +13,8 @@ interface Recipe {
     ingredients: string;
     instructions: string;
     imageUrl: string;
+    chibiUrl?: string;
+    servingSuggestions?: string;
 }
 
 import { getRecipeById, getAllRecipes } from '@/lib/db';
@@ -102,6 +104,18 @@ export default async function RecipePage({ params }: { params: Promise<{ id: str
                                 <li key={index}>{instruction}</li>
                             ))}
                         </ol>
+
+                        {recipe.servingSuggestions && (
+                            <div className={styles.servingSection}>
+                                <h2>Serving Suggestions:</h2>
+                                <p>{recipe.servingSuggestions}</p>
+                            </div>
+                        )}
+                        {recipe.chibiUrl && (
+                            <div className={styles.chibiContainer}>
+                                <img src={recipe.chibiUrl} alt="Chibi Decoration" className={styles.chibiImage} />
+                            </div>
+                        )}
                     </div>
                 </div>
             </article>

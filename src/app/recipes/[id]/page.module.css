@@ -17,9 +17,39 @@
 .recipeDetail {
     background: white;
     border-radius: 12px;
-    overflow: hidden;
+    /* overflow: hidden; Removed to allow chibi to overlap */
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
     margin-bottom: 4rem;
+    position: relative;
+}
+
+.chibiContainer {
+    margin-top: 2rem;
+    display: flex;
+    justify-content: flex-end;
+    width: 100%;
+    pointer-events: none;
+}
+
+.chibiImage {
+    max-width: 150px;
+    height: auto;
+    filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.2));
+    animation: float 3s ease-in-out infinite;
+}
+
+@keyframes float {
+    0% {
+        transform: translateY(0px);
+    }
+
+    50% {
+        transform: translateY(-10px);
+    }
+
+    100% {
+        transform: translateY(0px);
+    }
 }
 
 .heroSection {
@@ -27,6 +57,7 @@
     height: 400px;
     background: #333;
     overflow: hidden;
+    border-radius: 12px 12px 0 0;
 }
 
 .heroImageWrapper {
@@ -105,13 +136,20 @@
 }
 
 .ingredientsSection h2,
-.instructionsSection h2 {
+.instructionsSection h2,
+.servingSection h2 {
     font-family: var(--font-serif);
     color: var(--color-green);
     margin-bottom: 1.5rem;
     font-size: 1.8rem;
     border-bottom: 2px solid var(--color-cream);
     padding-bottom: 0.5rem;
+}
+
+.servingSection {
+    margin-top: 3rem;
+    font-style: italic;
+    color: #444;
 }
 
 .ingredientsList {
