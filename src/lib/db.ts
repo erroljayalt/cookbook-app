@@ -1,7 +1,4 @@
-import { promises as fs } from 'fs';
-import path from 'path';
-
-const dbPath = path.join('/tmp', 'recipes.json');
+const BLOB_URL = 'https://jsonblob.com/api/jsonBlob/019aed29-e2e2-7591-aaf4-22c0d0931ee4';
 
 export interface Recipe {
   id: number;
@@ -21,26 +18,21 @@ interface Database {
 
 async function readDatabase(): Promise<Database> {
   try {
-    const data = await fs.readFile(dbPath, 'utf-8');
-    return JSON.parse(data);
+    const res = await fetch(BLOB_URL, { cache: 'no-store' });
+    if (!res.ok) throw new Error('Failed to fetch DB');
+    return await res.json();
   } catch (error) {
-    // If file doesn't exist in /tmp, try to load initial data from project root or start empty
-    try {
-      const initialPath = path.join(process.cwd(), 'recipes.json');
-      const initialData = await fs.readFile(initialPath, 'utf-8');
-      // Write it to /tmp so we can modify it later
-      await fs.writeFile(dbPath, initialData, 'utf-8');
-      return JSON.parse(initialData);
-    } catch (e) {
-      const initialDb: Database = { recipes: [], nextId: 1 };
-      await writeDatabase(initialDb);
-      return initialDb;
-    }
+    console.error('DB Read Error:', error);
+    return { recipes: [], nextId: 1 };
   }
 }
 
 async function writeDatabase(db: Database): Promise<void> {
-  await fs.writeFile(dbPath, JSON.stringify(db, null, 2), 'utf-8');
+  await fetch(BLOB_URL, {
+    method: 'PUT',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(db),
+  });
 }
 
 export const getAllRecipes = async (): Promise<Recipe[]> => {
