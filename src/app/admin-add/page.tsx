@@ -26,6 +26,8 @@ export default function AdminPage() {
     const [description, setDescription] = useState('');
     const [ingredients, setIngredients] = useState(['']);
     const [instructions, setInstructions] = useState(['']);
+    const [imagePreview, setImagePreview] = useState<string>('');
+    const [imageUrl, setImageUrl] = useState<string>('');
 
     useEffect(() => {
         fetchRecipes();
@@ -50,6 +52,8 @@ export default function AdminPage() {
         setDescription('');
         setIngredients(['']);
         setInstructions(['']);
+        setImagePreview('');
+        setImageUrl('');
     };
 
     const handleEdit = (recipe: Recipe) => {
@@ -59,6 +63,8 @@ export default function AdminPage() {
         setDescription(recipe.description);
         setIngredients(JSON.parse(recipe.ingredients));
         setInstructions(JSON.parse(recipe.instructions));
+        setImageUrl(recipe.imageUrl || '');
+        setImagePreview(recipe.imageUrl || '');
         window.scrollTo({ top: 0, behavior: 'smooth' });
     };
 
@@ -98,6 +104,57 @@ export default function AdminPage() {
         setInstructions(newInstructions);
     };
 
+    const convertToBase64 = (file: File): Promise<string> => {
+        return new Promise((resolve, reject) => {
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                const img = new Image();
+                img.onload = () => {
+                    const canvas = document.createElement('canvas');
+                    const ctx = canvas.getContext('2d');
+                    const MAX_WIDTH = 800;
+                    const MAX_HEIGHT = 600;
+                    let width = img.width;
+                    let height = img.height;
+
+                    if (width > height) {
+                        if (width > MAX_WIDTH) {
+                            height *= MAX_WIDTH / width;
+                            width = MAX_WIDTH;
+                        }
+                    } else {
+                        if (height > MAX_HEIGHT) {
+                            width *= MAX_HEIGHT / height;
+                            height = MAX_HEIGHT;
+                        }
+                    }
+
+                    canvas.width = width;
+                    canvas.height = height;
+                    ctx?.drawImage(img, 0, 0, width, height);
+                    resolve(canvas.toDataURL('image/jpeg', 0.7));
+                };
+                img.src = e.target?.result as string;
+            };
+            reader.onerror = reject;
+            reader.readAsDataURL(file);
+        });
+    };
+
+    const handleImageChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+        const file = e.target.files?.[0];
+        if (file) {
+            try {
+                const base64 = await convertToBase64(file);
+                setImagePreview(base64);
+                setImageUrl(base64);
+            } catch (error) {
+                console.error('Error processing image:', error);
+                alert('Failed to process image');
+            }
+        }
+    };
+
     const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         setIsSubmitting(true);
@@ -105,37 +162,28 @@ export default function AdminPage() {
         const filteredIngredients = ingredients.filter(i => i.trim() !== '');
         const filteredInstructions = instructions.filter(i => i.trim() !== '');
 
-        // For file upload, we still need FormData, but for update we might send JSON if no image change
-        // To keep it simple, we'll use FormData for both, but handle the API difference
-
-        const formData = new FormData(e.currentTarget);
-        formData.set('ingredients', JSON.stringify(filteredIngredients));
-        formData.set('instructions', JSON.stringify(filteredInstructions));
+        const recipeData = {
+            title,
+            author,
+            description,
+            ingredients: JSON.stringify(filteredIngredients),
+            instructions: JSON.stringify(filteredInstructions),
+            imageUrl,
+        };
 
         try {
             let response;
             if (editingId) {
-                // Update Mode (PUT) - Note: File upload with PUT might need special handling or just JSON
-                // For simplicity in this demo, we'll send JSON for updates and ignore image updates for now
-                // or we can stick to one pattern. Let's try sending JSON for update.
-                const updateData = {
-                    title,
-                    author,
-                    description,
-                    ingredients: JSON.stringify(filteredIngredients),
-                    instructions: JSON.stringify(filteredInstructions),
-                };
-
                 response = await fetch(`/api/recipes/${editingId}`, {
                     method: 'PUT',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(updateData),
+                    body: JSON.stringify(recipeData),
                 });
             } else {
-                // Create Mode (POST)
                 response = await fetch('/api/recipes', {
                     method: 'POST',
-                    body: formData,
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(recipeData),
                 });
             }
 
@@ -201,18 +249,22 @@ export default function AdminPage() {
                                 />
                             </div>
 
-                            {!editingId && (
-                                <div className={styles.formGroup}>
-                                    <label htmlFor="image">Recipe Image</label>
-                                    <input
-                                        type="file"
-                                        id="image"
-                                        name="image"
-                                        accept="image/*"
-                                        className={styles.fileInput}
-                                    />
-                                </div>
-                            )}
+                            <div className={styles.formGroup}>
+                                <label htmlFor="image">Recipe Image</label>
+                                {imagePreview && (
+                                    <div className={styles.imagePreview}>
+                                        <img src={imagePreview} alt="Preview" style={{ maxWidth: '100%', maxHeight: '200px', borderRadius: '8px', marginBottom: '10px' }} />
+                                    </div>
+                                )}
+                                <input
+                                    type="file"
+                                    id="image"
+                                    name="image"
+                                    accept="image/*"
+                                    onChange={handleImageChange}
+                                    className={styles.fileInput}
+                                />
+                            </div>
                         </div>
 
                         <div className={styles.formSection}>

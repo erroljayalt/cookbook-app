@@ -14,16 +14,8 @@ export async function GET() {
 
 export async function POST(request: NextRequest) {
     try {
-        const formData = await request.formData();
-
-        const title = formData.get('title') as string;
-        const author = formData.get('author') as string;
-        const description = formData.get('description') as string;
-        const ingredients = formData.get('ingredients') as string;
-        const instructions = formData.get('instructions') as string;
-
-        // Image upload disabled for shared storage demo
-        const imageUrl = '';
+        const body = await request.json();
+        const { title, author, description, ingredients, instructions, imageUrl } = body;
 
         const recipe = await createRecipe({
             title,
