@@ -29,6 +29,7 @@ export async function PUT(
     try {
         const { id: idString } = await params;
         const id = parseInt(idString);
+        console.log(`API PUT /recipes/${id} called`);
         const updates = await request.json();
 
         const updatedRecipe = await updateRecipe(id, updates);
