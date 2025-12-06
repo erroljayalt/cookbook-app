@@ -219,7 +219,8 @@ export default function AdminPage() {
                 resetForm();
                 alert(editingId ? 'Recipe updated!' : 'Recipe created!');
             } else {
-                alert('Failed to save recipe.');
+                const errorData = await response.json();
+                alert(`Failed to save recipe: ${errorData.error || 'Unknown error'}`);
             }
         } catch (error) {
             console.error('Error saving recipe:', error);
