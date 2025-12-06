@@ -17,8 +17,8 @@ export const getAllRecipes = async (): Promise<Recipe[]> => {
   const { data, error } = await supabase
     .from('recipes')
     .select('*')
-    .order('createdAt', { ascending: false })
-    .order('id', { ascending: false });
+    .order('createdAt', { ascending: true })
+    .order('id', { ascending: true });
 
   if (error) {
     console.error('Supabase Error fetching recipes:', error);
