@@ -1,4 +1,4 @@
-const BLOB_URL = 'https://jsonblob.com/api/jsonBlob/019aed29-e2e2-7591-aaf4-22c0d0931ee4';
+import { supabase } from './supabase';
 
 export interface Recipe {
   id: number;
@@ -13,89 +13,76 @@ export interface Recipe {
   createdAt: string;
 }
 
-interface Database {
-  recipes: Recipe[];
-  nextId: number;
-}
-
-async function readDatabase(): Promise<Database> {
-  try {
-    const res = await fetch(BLOB_URL, { cache: 'no-store' });
-    if (!res.ok) throw new Error('Failed to fetch DB');
-    const data = await res.json();
-    console.log('DB Read Success. Keys:', Object.keys(data), 'Recipe Count:', data.recipes?.length);
-    if (data.activeId === undefined && data.nextId === undefined) {
-      console.warn('DB missing nextId/activeId, initializing...');
-      // Auto-repair if needed in memory to prevent crashes, though writeDatabase needs to save it.
-      if (!data.recipes) data.recipes = [];
-      if (!data.nextId) {
-        const maxId = data.recipes.reduce((max: number, r: any) => Math.max(max, r.id || 0), 0);
-        data.nextId = maxId + 1;
-      }
-    }
-    return data;
-  } catch (error) {
-    console.error('DB Read Error:', error);
-    return { recipes: [], nextId: 1 };
-  }
-}
-
-async function writeDatabase(db: Database): Promise<void> {
-  await fetch(BLOB_URL, {
-    method: 'PUT',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(db),
-  });
-}
-
 export const getAllRecipes = async (): Promise<Recipe[]> => {
-  const db = await readDatabase();
-  return db.recipes;
+  const { data, error } = await supabase
+    .from('recipes')
+    .select('*')
+    .order('createdAt', { ascending: false });
+
+  if (error) {
+    console.error('Supabase Error fetching recipes:', error);
+    return [];
+  }
+  return data || [];
 };
 
 export const getRecipeById = async (id: number): Promise<Recipe | undefined> => {
-  const db = await readDatabase();
-  return db.recipes.find(recipe => recipe.id === id);
+  const { data, error } = await supabase
+    .from('recipes')
+    .select('*')
+    .eq('id', id)
+    .single();
+
+  if (error) {
+    // If error is code 'PGRST116' it means no rows returned (not found), which is fine to return undefined
+    if (error.code !== 'PGRST116') {
+      console.error('Supabase Error fetching recipe by id:', error);
+    }
+    return undefined;
+  }
+  return data;
 };
 
 export const createRecipe = async (recipe: Omit<Recipe, 'id' | 'createdAt'>): Promise<Recipe> => {
-  const db = await readDatabase();
+  // We assume the DB generates id and createdAt
+  const { data, error } = await supabase
+    .from('recipes')
+    .insert(recipe)
+    .select()
+    .single();
 
-  const newRecipe: Recipe = {
-    ...recipe,
-    id: db.nextId,
-    createdAt: new Date().toISOString()
-  };
-
-  db.recipes.push(newRecipe);
-  db.nextId++;
-
-  await writeDatabase(db);
-
-  return newRecipe;
+  if (error) {
+    console.error('Supabase Error creating recipe:', error);
+    throw new Error('Failed to create recipe');
+  }
+  return data;
 };
 
 export const updateRecipe = async (id: number, updates: Partial<Omit<Recipe, 'id' | 'createdAt'>>): Promise<Recipe | null> => {
-  const db = await readDatabase();
-  const index = db.recipes.findIndex(r => r.id === id);
-  console.log(`Updating recipe id: ${id}. Found index: ${index}`);
+  const { data, error } = await supabase
+    .from('recipes')
+    .update(updates)
+    .eq('id', id)
+    .select()
+    .single();
 
-  if (index === -1) return null;
-
-  const updatedRecipe = { ...db.recipes[index], ...updates };
-  db.recipes[index] = updatedRecipe;
-
-  await writeDatabase(db);
-  return updatedRecipe;
+  if (error) {
+    console.error('Supabase Error updating recipe:', error);
+    return null;
+  }
+  return data;
 };
 
 export const deleteRecipe = async (id: number): Promise<boolean> => {
-  const db = await readDatabase();
-  const initialLength = db.recipes.length;
-  db.recipes = db.recipes.filter(r => r.id !== id);
+  const { error, count } = await supabase
+    .from('recipes')
+    .delete({ count: 'exact' })
+    .eq('id', id);
 
-  if (db.recipes.length === initialLength) return false;
+  if (error) {
+    console.error('Supabase Error deleting recipe:', error);
+    return false;
+  }
 
-  await writeDatabase(db);
-  return true;
+  return count !== null && count > 0;
 };
